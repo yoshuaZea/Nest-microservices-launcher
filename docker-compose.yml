@@ -76,3 +76,26 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+  payments-ms:
+    container_name: payments-ms
+    ports:
+      - ${PAYMENTS_MS_PORT}:${PAYMENTS_MS_PORT}
+    build: ./payments-ms
+    # volumes:
+    #   - ./payments-ms/src:/usr/src/app/src
+    develop:
+      watch:
+        - action: sync
+          path: ./payments-ms/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
+    command: npm run start:dev
+    environment:
+      - APP_PORT=${PAYMENTS_MS_PORT}
+      - NATS_SERVERS=nats://nats-server:4222
+      - STRIPE_SECRET=${STRIPE_SECRET}
+      - STRIPE_SUCCESS_URL=${STRIPE_SUCCESS_URL}
+      - STRIPE_CANCEL_URL=${STRIPE_CANCEL_URL}
+      - STRIPE_ENDPOINT_SECRET=${STRIPE_ENDPOINT_SECRET}

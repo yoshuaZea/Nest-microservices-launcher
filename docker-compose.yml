@@ -28,6 +28,25 @@ services:
       - ORDERS_MICROSERVICE_PORT=3002
       - NATS_SERVERS=nats://nats-server:4222
 
+  auth-ms:
+    container_name: auth-ms
+    build: ./auth-ms
+    # volumes:
+    #   - ./auth-ms/src:/usr/src/app/src
+    develop:
+      watch:
+        - action: sync
+          path: ./auth-ms/src
+          target: /usr/src/app/src
+          ignore:
+            - node_modules
+    command: npm run start:dev
+    environment:
+      - APP_PORT=3004
+      - NATS_SERVERS=nats://nats-server:4222
+      - DB_MONGO_URL=${DB_MONGO_URL}
+      - JWT_SECRET=${JWT_SECRET}
+
   products-ms:
     build: ./products-ms
     # volumes:

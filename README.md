@@ -4,6 +4,7 @@
 2. Create a `.env` file based off `.env.template`
 3. Run command to rebuild submodules `git submodule update --init --recursive`
 4. Install dependencies `docker compose up --build`
+5. Run command to start the forwarder `hookdeck listen 3003 stripe-to-localhost`
 
 ### Pasos para crear los Git Submodules
 
